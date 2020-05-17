@@ -1,0 +1,25 @@
+name: abeato-gdb
+base: core18
+version: '0.1'
+summary: gdb as a snap
+description: |
+  gdb as a snap
+grade: devel
+confinement: devmode
+# layout:
+#   /etc/gdbrc:
+#     bind-file: $SNAP/etc/gdbrc
+apps:
+  gdb:
+    command: gdb
+    # plugs:
+    #   - network
+    #   - home
+parts:
+  gdb:
+    plugin: nil
+    stage-packages:
+      - gdb
+      - libc6-dbg
+      # test with snapcraft 4 (http://ddebs.ubuntu.com)
+      #- libglib2.0-0-dbgsym
