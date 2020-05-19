@@ -25,7 +25,6 @@ parts:
       - gdb
     override-build: |
       snapcraftctl build
-      env | grep SNAPCRAFT
       case ${SNAPCRAFT_ARCH_TRIPLET%%-*} in
       x86_64)
           arch=amd64; break; ;;
