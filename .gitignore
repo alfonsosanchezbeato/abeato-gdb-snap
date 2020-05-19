@@ -1,0 +1,6 @@
+/stage/
+/parts/
+/prime/
+/snap/.snapcraft
+
+abeato-gdb_*_*.snap
