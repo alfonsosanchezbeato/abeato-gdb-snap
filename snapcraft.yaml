@@ -50,11 +50,11 @@ parts:
       - usr/share/doc/gdb
       - usr/share/gdb
       # Libraries
-      - usr/lib/x86_64-linux-gnu/libpython3*
+      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libpython3*
       - usr/share/doc/libpython3*
-      - usr/lib/x86_64-linux-gnu/libdw*
+      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libdw*
       - usr/share/doc/libdw*
-      - usr/lib/x86_64-linux-gnu/libbabeltrace*
+      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libbabeltrace*
       - usr/share/doc/libbabeltrace*
-      - usr/lib/x86_64-linux-gnu/libmpfr*
+      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libmpfr*
       - usr/share/doc/libmpfr*
