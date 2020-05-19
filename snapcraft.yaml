@@ -1,25 +1,61 @@
 name: abeato-gdb
-base: core18
+base: core20
 version: '0.1'
 summary: gdb as a snap
 description: |
   gdb as a snap
 grade: devel
 confinement: devmode
-# layout:
-#   /etc/gdbrc:
-#     bind-file: $SNAP/etc/gdbrc
+
 apps:
   gdb:
-    command: gdb
-    # plugs:
-    #   - network
-    #   - home
+    command: usr/bin/gdb -x $SNAP/options.gdb
+
 parts:
+  dump:
+    plugin: dump
+    source: dump
   gdb:
     plugin: nil
+    build-packages:
+      - coreutils
+      - dctrl-tools
+      - wget
     stage-packages:
       - gdb
-      - libc6-dbg
-      # test with snapcraft 4 (http://ddebs.ubuntu.com)
-      #- libglib2.0-0-dbgsym
+    override-build: |
+      snapcraftctl build
+      env | grep SNAPCRAFT
+      case ${SNAPCRAFT_ARCH_TRIPLET%%-*} in
+      x86_64)
+          arch=amd64; break; ;;
+      aarch64)
+          arch=arm64; break; ;;
+      arm)
+          arch=armhf; break; ;;
+      *)
+          printf "Unknown architecture in %s" "$SNAPCRAFT_ARCH_TRIPLET"
+          exit 1; ;;
+      esac
+      mkdir -p "$SNAPCRAFT_PART_INSTALL"/debug
+      for series in xenial bionic focal; do
+          "$SNAPCRAFT_PROJECT_DIR"/get-packages.sh $arch $series \
+              "$SNAPCRAFT_PART_INSTALL"/debug/$series libc6-dbg
+      done
+    prime:
+      # symbols
+      - debug
+      # gdb
+      - etc
+      - usr/bin
+      - usr/share/doc/gdb
+      - usr/share/gdb
+      # Libraries
+      - usr/lib/x86_64-linux-gnu/libpython3*
+      - usr/share/doc/libpython3*
+      - usr/lib/x86_64-linux-gnu/libdw*
+      - usr/share/doc/libdw*
+      - usr/lib/x86_64-linux-gnu/libbabeltrace*
+      - usr/share/doc/libbabeltrace*
+      - usr/lib/x86_64-linux-gnu/libmpfr*
+      - usr/share/doc/libmpfr*
