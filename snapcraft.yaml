@@ -9,7 +9,8 @@ confinement: devmode
 
 apps:
   gdb:
-    command: usr/bin/gdb -x $SNAP/options.gdb
+
+    command: usr/bin/gdb -ix $SNAP/options.gdb
 
 parts:
   dump:
